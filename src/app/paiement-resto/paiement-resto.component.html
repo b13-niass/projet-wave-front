@@ -1,0 +1,33 @@
+<form class="flex relative flex-col w-full h-full items-center bg-white p-4">
+  <div class="w-full flex justify-between items-center mb-4">
+    <button class="text-gray-800 text-lg">
+      <fa-icon [icon]="faArrowLeft" class="text-black text-[25px]"></fa-icon>
+    </button>
+    <h1 class="text-lg font-semibold">Payer</h1>
+    <div></div>
+  </div>
+
+  <div class="mb-8 w-[80%] flex flex-row gap-3 items-center">
+    <img src="https://placehold.co/32" alt="Canal+" class="w-8 h-8" />
+    <p class="text-gray-600">Mello</p>
+  </div>
+
+  <div class="space-y-6 mb-8 w-[80%]">
+    <div>
+      <label class="block text-lg text-gray-400"> Montant </label>
+      <input
+        type="text"
+        class="w-full border-b-2 border-gray-200 py-2 focus:outline-none focus:border-blue-500"
+      />
+    </div>
+    <span class="text-red-400 invisible"> Le montant est requis </span>
+  </div>
+
+  <div class="absolute w-[95%] bottom-6 left-4 right-4">
+    <button
+      class="w-full bg-[#1ab3e5] text-white py-4 rounded-full text-xl font-semibold"
+    >
+      Payer
+    </button>
+  </div>
+</form>

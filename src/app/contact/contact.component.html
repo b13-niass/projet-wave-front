@@ -1,0 +1,49 @@
+<div
+  class="flex flex-col w-full h-full items-center bg-white p-4 overflow-y-scroll"
+>
+  <div class="w-full flex justify-between items-center mb-4">
+    <button class="text-gray-800 text-lg">
+      <fa-icon [icon]="faArrowLeft" class="text-black text-[25px]"></fa-icon>
+    </button>
+    <h1 class="text-lg font-semibold">Envoyer de l'Argent</h1>
+    <div></div>
+  </div>
+
+  <div class="flex flex-col w-full mb-6">
+    <label>À</label>
+    <input
+      type="text"
+      name="phone"
+      id="phone"
+      class="p-2 h-[50px] w-full border-0 border-b-[1px] border-gray-300 rounded-md focus:outline-none focus:border-b-2 focus:border-blue-500"
+      placeholder="Entrez votre numéro"
+    />
+  </div>
+
+  <div class="w-full flex items-center gap-5 mb-6 rounded-lg">
+    <button class="font-semibold text-base flex items-center gap-2">
+      <fa-icon
+        [icon]="faPlus"
+        class="text-white bg-[#1ab3e5] font-bold px-[10px] py-[10px] rounded-[100%] text-[25px]"
+      ></fa-icon>
+      Envoyer à un nouveau numéro
+    </button>
+  </div>
+
+  <div class="w-full">
+    <h2 class="text-lg font-semibold mb-3">Contact</h2>
+    <div class="space-y-4">
+      <div class="flex items-center gap-3 px-4 py-2 border-b border-gray-200">
+        <div
+          class="flex items-center justify-center w-10 h-10 bg-gray-300 rounded-full"
+        >
+          <fa-icon [icon]="faUser" class="text-gray-500 text-[25px]"></fa-icon>
+        </div>
+        <div>
+          <p class="font-medium">Sire mbaye</p>
+          <p class="text-gray-500 text-sm">77 0001199</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

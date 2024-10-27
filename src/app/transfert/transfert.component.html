@@ -1,0 +1,47 @@
+<form class="flex relative flex-col w-full h-full items-center bg-white p-4">
+  <div class="w-full flex justify-between items-center mb-4">
+    <button class="text-gray-800 text-lg">
+      <fa-icon [icon]="faArrowLeft" class="text-black text-[25px]"></fa-icon>
+    </button>
+    <h1 class="text-lg font-semibold">Envoyer de l'Argent</h1>
+    <div></div>
+  </div>
+
+  <div class="mb-8 w-[80%]">
+    <p class="text-xs text-gray-400 mb-1">À</p>
+    <h1 class="text-xl font-semibold text-gray-900 mb-1">Ibrahima Niaré</h1>
+    <p class="text-gray-600">77 228 66 29</p>
+  </div>
+
+  <div class="space-y-6 mb-8 w-[80%]">
+    <div>
+      <label class="block text-lg text-gray-400"> Montant Envoyé </label>
+      <input
+        type="number"
+        class="w-full border-b-2 border-gray-200 py-2 focus:outline-none focus:border-blue-500"
+      />
+    </div>
+    <span class="text-red-400 invisible"> Le montant envoyé est requis </span>
+    <div>
+      <label class="block text-lg text-gray-400"> Montant Reçu </label>
+      <input
+        type="number"
+        class="w-full border-b-2 border-gray-200 py-2 focus:outline-none focus:border-blue-500"
+      />
+    </div>
+    <span class="text-red-400 invisible"> Le montant reçu est requis </span>
+  </div>
+
+  <div class="text-center space-y-1 mb-8">
+    <p class="text-cyan-400">Frais Wave = 1%</p>
+    <p class="text-cyan-400">Frais maximum: 5.000F</p>
+  </div>
+
+  <div class="absolute w-[95%] bottom-6 left-4 right-4">
+    <button
+      class="w-full bg-[#1ab3e5] text-white py-4 rounded-full text-xl font-semibold"
+    >
+      Envoyer
+    </button>
+  </div>
+</form>

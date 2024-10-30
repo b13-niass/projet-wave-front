@@ -14,6 +14,7 @@
     <input
       type="text"
       name="phone"
+      [(ngModel)]="query"
       id="phone"
       class="p-2 h-[50px] w-full border-0 border-b-[1px] border-gray-300 rounded-md focus:outline-none focus:border-b-2 focus:border-blue-500"
       placeholder="Entrez votre numéro"
@@ -33,17 +34,23 @@
   <div class="w-full">
     <h2 class="text-lg font-semibold mb-3">Contact</h2>
     <div class="space-y-4">
-      <div class="flex items-center gap-3 px-4 py-2 border-b border-gray-200">
+      @for (contact of (contacts$ | async | searchContact : query ); track
+      contact.id) {
+      <div
+        (click)="handleChooseContact(contact.id)"
+        class="flex hover:cursor-pointer hover:bg-gray-100 items-center gap-3 px-4 py-2 border-b border-gray-200"
+      >
         <div
           class="flex items-center justify-center w-10 h-10 bg-gray-300 rounded-full"
         >
           <fa-icon [icon]="faUser" class="text-gray-500 text-[25px]"></fa-icon>
         </div>
         <div>
-          <p class="font-medium">Sire mbaye</p>
-          <p class="text-gray-500 text-sm">77 0001199</p>
+          <p class="font-medium">{{ contact.nom }}</p>
+          <p class="text-gray-500 text-sm">{{ contact.telephone }}</p>
         </div>
       </div>
+      }
     </div>
   </div>
 </div>

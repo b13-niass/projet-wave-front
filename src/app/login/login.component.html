@@ -18,15 +18,16 @@
   </div>
 
   <div
-    class="relative grid max-sm:grid-rows-4 min-sm:grid-rows-4 md:grid-flow-col content w-full max-md:w-12/12 min-md:w-10/12 h-full bg-white shadow-inner z-20"
+    class="relative grid grid-cols-[2fr_3fr] max-sm:grid-rows-4 min-sm:grid-rows-4 md:grid-flow-col content w-full max-md:w-12/12 min-md:w-10/12 h-full bg-white shadow-inner z-20"
   >
     <div
       class="flex flex-col bg-[#f8f8f8] justify-center items-center row-span-4 border border-sky-500 max-sm:hidden"
     >
       <form
         class="w-[70%] h-[100%] flex flex-col gap-6 justify-center items-center"
-        action=""
-        method="post"
+        [formGroup]="formLogin"
+        (ngSubmit)="onSubmitLogin()"
+        [ngClass]="{ hidden: isVerificationFormActive }"
       >
         <div class="flex flex-col w-full space-y-2">
           <label for="phone" class="text-gray-700 font-medium"
@@ -34,26 +35,26 @@
           >
           <div class="flex space-x-2">
             <select
-              name="country_code"
+              name="indicatif"
               id="country_code"
               class="p-2 w-[30%] h-[60px] border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none"
             >
-              <option value="+1">+1</option>
-              <option value="+33">+33</option>
-              <option value="+44">+44</option>
-              <!-- Ajoutez d'autres options ici -->
+              <option value="+221" selected>🇸🇳 +221</option>
+              <option value="+256">🇺🇬 +256</option>
+              <option value="+225">🇨🇮 +225</option>
+              <option value="+223">🇲🇱 +223</option>
+              <option value="+226">🇧🇫 +226</option>
+              <option value="+220">🇬🇲 +220</option>
             </select>
             <input
               type="text"
-              name="phone"
-              id="phone"
-              class="p-2 h-[60px] focus:outline-[#4647d3] w-full border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none"
-              placeholder="Entrez votre numéro"
+              formControlName="telephone"
+              id="telephone"
+              class="p-2 h-[60px] text-2xl focus:outline-[#4647d3] w-full border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none"
+              placeholder="XXXXXXX"
             />
           </div>
-          <span class="text-red-400 invisible">
-            le Numero de telephone est requis</span
-          >
+          <span class="text-red-400 invisible" #telephoneError>error</span>
         </div>
 
         <div class="flex flex-col w-full space-y-2">
@@ -62,53 +63,56 @@
           >
           <input
             type="password"
-            name="password"
+            formControlName="password"
             id="password"
-            class="p-2 h-[60px] focus:outline-[#4647d3] border border-[#1ab3e5] rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none"
-            placeholder="Entrez votre mot de passe"
+            class="p-2 h-[60px] text-2xl focus:outline-[#4647d3] border border-[#1ab3e5] rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none"
+            placeholder="Entrez le code"
           />
-          <span class="text-red-400 invisible">
-            le mot de password est requis</span
-          >
+          <span class="text-red-400 invisible" #passwordError>error</span>
         </div>
         <button
           type="submit"
-          class="w-full h-[60px] py-2 px-4 bg-[#4647d3] text-white font-semibold rounded-md hover:bg-blue-600 transition duration-200 ease-in-out"
+          class="w-full flex flex-row justify-center items-center gap-3 h-[60px] py-2 px-4 bg-[#4647d3] text-white font-semibold rounded-md hover:bg-blue-600 transition duration-200 ease-in-out"
         >
-          Se Connecter
+          <span> Se Connecter </span>
+
+          <app-spinner *ngIf="isLoginLoading"></app-spinner>
         </button>
-        <span class="text-red-400 invisible">
-          le numero de telephone ou le mot de passe est incorrecte</span
+        <span class="text-red-400 invisible" #telephonePasswordError>
+          error</span
         >
       </form>
 
       <form
-        class="w-[70%] h-[100%] hidden flex-col gap-6 justify-center items-center"
-        action=""
-        method="post"
+        class="w-[70%] h-[30%] flex-col gap-6 justify-center items-center"
+        [formGroup]="formVerification"
+        (ngSubmit)="onSubmitVerification()"
+        [ngClass]="{ hidden: !isVerificationFormActive }"
+        #formVerifId
       >
         <div class="flex flex-col w-full space-y-2">
-          <label for="password" class="text-gray-700 font-medium"
+          <label for="code_verification" class="text-gray-700 font-medium"
             >Code de vérification</label
           >
           <input
-            type="password"
-            name="password"
-            id="password"
+            type="text"
+            formControlName="code_verification"
+            id="code_verification"
             class="p-2 h-[60px] focus:outline-[#4647d3] border border-[#1ab3e5] rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none"
             placeholder="Entrez votre mot de passe"
           />
-          <span class="text-red-400 invisible">
+          <span class="text-red-400 invisible" #codeVerificationRequis>
             le code de vérification est requis</span
           >
         </div>
         <button
           type="submit"
-          class="w-full h-[60px] py-2 px-4 bg-[#4647d3] text-white font-semibold rounded-md hover:bg-blue-600 transition duration-200 ease-in-out"
+          class="w-full flex justify-center items-center gap-3 flex-row8 h-[60px] py-2 px-4 bg-[#4647d3] text-white font-semibold rounded-md hover:bg-blue-600 transition duration-200 ease-in-out"
         >
-          Vérifier
+          <span> Vérifier </span>
+          <app-spinner *ngIf="isVerificationLoading"></app-spinner>
         </button>
-        <span class="text-red-400 invisible">
+        <span class="text-red-400 invisible" #codeVerificationIncorrect>
           le code de vérification est incorrect</span
         >
       </form>

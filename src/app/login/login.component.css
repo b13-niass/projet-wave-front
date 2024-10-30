@@ -1,26 +1,24 @@
 :root {
-    --shadow-rgb: 11, 20, 26;
-  }
-  
-  .content {
-    box-shadow: rgba(3, 102, 214, 0.5) 0px 0px 0px 3px !important;
-  }
-  
-  .qr-content {
-  
-  }
-  
-  .qr-icon{
-    background-image: url(/assets/icon.png);
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
-  }
-  
-  .qr-code {
-    background-image: url(/assets/qr-code.png);
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
-  }
-  
+  --shadow-rgb: 11, 20, 26;
+}
+
+.content {
+  box-shadow: rgba(3, 102, 214, 0.5) 0px 0px 0px 3px !important;
+}
+
+.qr-content {
+}
+
+.qr-icon {
+  background-image: url(/assets/icon.png);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.qr-code {
+  background-image: url(/assets/qr-code.png);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}

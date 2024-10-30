@@ -99,5 +99,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   handleDetailTransaction(idTransaction: number) {}
 
+  handleDataFromChild(data: any) {}
+
   ngOnDestroy(): void {}
 }

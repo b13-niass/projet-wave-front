@@ -20,9 +20,14 @@ export const routes: Routes = [
           import('./contact/contact.component').then((m) => m.ContactComponent),
       },
       {
-        path: 'transfert',
+        path: 'contact',
         loadComponent: () =>
           import('./contact/contact.component').then((m) => m.ContactComponent),
+      },
+      {
+        path: 'transfert',
+        loadComponent: () =>
+          import('./transfert/transfert.component').then((m) => m.TransfertComponent),
       },
       {
         path: 'paiement',

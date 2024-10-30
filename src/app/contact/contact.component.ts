@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faArrowLeft, faPlus, faUser } from '@fortawesome/free-solid-svg-icons';
@@ -42,8 +42,15 @@ export class ContactComponent implements OnInit, OnDestroy {
     });
   }
 
-  handleChooseContact(idContact: number){
+  handleChooseContact(idContact: number) {
+    this.contacts$.subscribe((contacts) => {
+      const contact = contacts.find((c) => c.id === idContact);
 
+      if (contact) {
+        this.router.navigate(['/web/transfert'], { state: { contact } });
+      }
+
+    });
   }
 
   ngOnDestroy(): void {}

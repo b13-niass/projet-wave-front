@@ -21,7 +21,9 @@
     class="relative grid grid-cols-[2fr_4fr] max-sm:grid-cols-[1fr] content w-full md:w-12/12 lg:w-10/12 h-full bg-white shadow-inner z-20"
   >
     <div class="border border-sky-500 max-sm:hidden">
-      <router-outlet (dataEmitter)="handleDataFromChild($event)"></router-outlet>
+      <router-outlet
+        (dataEmitter)="handleDataFromChild($event)"
+      ></router-outlet>
     </div>
 
     <div
@@ -53,7 +55,7 @@
             #soldeGlobalSpan
           >
             @if(homeData){
-            {{ homeData.wallet.solde | moneyFormat }}
+            {{ soldeGlobal() | moneyFormat }}
             }@else{ _____ } Fcfa</span
           >
           <span
@@ -166,7 +168,8 @@
           "
           class="flex flex-col border border-1 bg-white flex-auto overflow-y-scroll"
         >
-          @for (transaction of (transactions$ | async); track transaction.id) {
+          @for (transaction of transactions$() | orderByDate: 'createdAt':'desc'
+          ; track transaction.id) {
           <div
             (click)="handleDetailTransaction(transaction.id)"
             class="flex hover:cursor-pointer hover:bg-gray-100 justify-between items-center p-4 bg-white border-b border-gray-200"

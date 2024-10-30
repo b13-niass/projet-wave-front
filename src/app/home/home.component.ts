@@ -1,5 +1,6 @@
 import {
   Component,
+  computed,
   ElementRef,
   OnDestroy,
   OnInit,
@@ -35,6 +36,8 @@ import { IAccueilResponse, ITransaction } from '../interfaces/index.ts';
 import { CommonModule } from '@angular/common';
 import { MoneyFormatPipe } from '../pipes/money-format.pipe';
 import { Observable, of } from 'rxjs';
+import { SignalBaseService } from '../services/signal-base.service';
+import { OrderByDatePipe } from '../pipes/order-by-date.pipe';
 
 @Component({
   selector: 'app-home',
@@ -55,6 +58,7 @@ import { Observable, of } from 'rxjs';
     BanqueCodeComponent,
     BanqueComponent,
     MoneyFormatPipe,
+    OrderByDatePipe
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
@@ -68,24 +72,39 @@ export class HomeComponent implements OnInit, OnDestroy {
   faBuildingColumns = faBuildingColumns;
   faBars = faBars;
 
+  soldeGlobal: any;
+
   showSolde: boolean = true;
 
   @ViewChild('soldeGlobalSpan') soldeGlobalSpan!: ElementRef<HTMLElement>;
 
   homeData!: IAccueilResponse;
-  transactions$!: Observable<ITransaction[]>;
-
-  constructor(private router: Router, private clientService: ClientService) {}
+  // transactions$!: Observable<ITransaction[]>;
+  transactions$: any;
+  constructor(
+    private router: Router,
+    private clientService: ClientService,
+    private signalBaseService: SignalBaseService
+  ) {}
 
   ngOnInit(): void {
+    this.transactions$ = computed(() => this.signalBaseService.transactions());
+    this.soldeGlobal = computed(() => this.signalBaseService.solde());
+
     this.clientService.getAcceuilData().subscribe({
       next: (data) => {
         this.homeData = data.data;
-        console.log(this.homeData);
-        this.transactions$ = of([
+        this.signalBaseService.solde.set(this.homeData.wallet.solde);
+
+        this.signalBaseService.transactions.set([
           ...this.homeData.user.transactionsReceived,
           ...this.homeData.user.transactionsSent,
         ]);
+
+        // this.transactions$ = of([
+        //   ...this.homeData.user.transactionsReceived,
+        //   ...this.homeData.user.transactionsSent,
+        // ]);
       },
       error: (error) => {
         console.error('Error:', error);

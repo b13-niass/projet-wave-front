@@ -6,6 +6,8 @@ import {
   ApiResponse,
   IAccueilResponse,
   IContactResponse,
+  IFraisResponse,
+  ITransfertResponse,
 } from '../interfaces/index.ts';
 
 @Injectable({
@@ -25,6 +27,19 @@ export class ClientService {
   public getContacts(): Observable<ApiResponse<IContactResponse>> {
     return this.httpClient.get<ApiResponse<IContactResponse>>(
       this.apiUrl + '/contacts'
+    );
+  }
+
+  public getGetFrais(): Observable<ApiResponse<IFraisResponse>> {
+    return this.httpClient.get<ApiResponse<IFraisResponse>>(
+      this.apiUrl + '/frais'
+    );
+  }
+
+  public makeTransfert(montant_recus: number, telephone: string): Observable<ApiResponse<ITransfertResponse>> {
+    return this.httpClient.post<ApiResponse<ITransfertResponse>>(
+      `${this.apiUrl}/transfert`,
+      { montant_recus, telephone }
     );
   }
 }

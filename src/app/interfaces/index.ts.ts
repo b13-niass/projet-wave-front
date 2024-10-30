@@ -22,6 +22,14 @@ export interface IContactResponse {
   contacts: IContact[];
 }
 
+export interface ITransfertResponse {
+  transaction: ITransaction;
+}
+
+export interface IFraisResponse {
+  frais: IFrais;
+}
+
 export interface IToken {
   token: string;
 }

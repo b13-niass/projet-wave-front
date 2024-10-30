@@ -8,6 +8,7 @@ import { Observable, of } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { SearchContactPipe } from '../pipes/search-contact.pipe';
+import { SignalBaseService } from '../services/signal-base.service';
 
 @Component({
   selector: 'app-contact',
@@ -31,7 +32,11 @@ export class ContactComponent implements OnInit, OnDestroy {
 
   contacts$!: Observable<IContact[]>;
 
-  constructor(private router: Router, private clientService: ClientService) {}
+  constructor(
+    private router: Router,
+    private clientService: ClientService,
+    private signalBaseService: SignalBaseService
+  ) {}
 
   ngOnInit(): void {
     this.clientService.getContacts().subscribe({
@@ -49,7 +54,6 @@ export class ContactComponent implements OnInit, OnDestroy {
       if (contact) {
         this.router.navigate(['/web/transfert'], { state: { contact } });
       }
-
     });
   }
 

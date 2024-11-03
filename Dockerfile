@@ -23,7 +23,7 @@ RUN npm install -g @angular/cli
 COPY --from=build /app /app
 
 # Expose the desired port (default port for ng serve is 4200, you can change it to 8141)
-EXPOSE 8141
+EXPOSE 4200
 
 # Use ng serve with a specified port and host
-CMD ["ng", "serve", "--host", "0.0.0.0", "--port", "8141"]
+CMD ["ng", "serve"]

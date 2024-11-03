@@ -22,10 +22,10 @@ import { IContact } from '../interfaces/index.ts';
     RouterLinkActive,
     SpinnerComponent,
   ],
-  templateUrl: './new-contact-transfert.component.html',
-  styleUrl: './new-contact-transfert.component.css',
+  templateUrl: './credit-new-contact.component.html',
+  styleUrl: './credit-new-contact.component.css',
 })
-export class NewContactTransfertComponent implements OnInit {
+export class CreditNewContactComponent implements OnInit {
   faArrowLeft = faArrowLeft;
   isNextLoading = false;
   formNewContact: FormGroup;
@@ -72,7 +72,7 @@ export class NewContactTransfertComponent implements OnInit {
         updatedAt: new Date(),
       };
 
-      this.router.navigate(['/web/transfert'], {
+      this.router.navigate(['/web/credit-montant'], {
         state: {
           contact: c,
         },

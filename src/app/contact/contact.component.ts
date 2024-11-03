@@ -29,6 +29,9 @@ export class ContactComponent implements OnInit, OnDestroy {
   faPlus = faPlus;
   faUser = faUser;
   query: string = '';
+  telephone: string = '';
+
+  myContact: IContact | undefined;
 
   contacts$!: Observable<IContact[]>;
 
@@ -36,24 +39,29 @@ export class ContactComponent implements OnInit, OnDestroy {
     private router: Router,
     private clientService: ClientService,
     private signalBaseService: SignalBaseService
-  ) {}
+  ) {
+
+  }
 
   ngOnInit(): void {
     this.clientService.getContacts().subscribe({
       next: (response) => {
         this.contacts$ = of(response.data.contacts);
       },
-      error: (error) => {},
+      error: (error) => {
+        console.error('Error:', error);
+      },
     });
   }
 
   handleChooseContact(idContact: number) {
     this.contacts$.subscribe((contacts) => {
       const contact = contacts.find((c) => c.id === idContact);
-
+      
       if (contact) {
         this.router.navigate(['/web/transfert'], { state: { contact } });
       }
+
     });
   }
 

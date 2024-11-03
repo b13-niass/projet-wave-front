@@ -16,6 +16,7 @@ export interface IAccueilResponse {
   user: IUser;
   wallet: IWallet;
   user_banque: IUserBanque[];
+  qr_code: string;
 }
 
 export interface IContactResponse {
@@ -28,6 +29,14 @@ export interface ITransfertResponse {
 
 export interface IFraisResponse {
   frais: IFrais;
+}
+
+export interface IFournisseurResponse {
+  fournisseurs: IFournisseur[];
+}
+
+export interface IUserResponse {
+  user: IUser;
 }
 
 export interface IToken {

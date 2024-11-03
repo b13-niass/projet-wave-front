@@ -17,14 +17,14 @@ export class AppComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.clientService.getGetFrais().subscribe({
-      next: (data) => {
-        this.signalBaseService.frais.set(data.data.frais);
-      },
-      error: (error) => {
-        console.error('Error:', error);
-      },
-    });
+    // this.clientService.getGetFrais().subscribe({
+    //   next: (data) => {
+    //     this.signalBaseService.frais.set(data.data.frais);
+    //   },
+    //   error: (error) => {
+    //     console.error('Error:', error);
+    //   },
+    // });
   }
 
   ngOnDestroy(): void {}

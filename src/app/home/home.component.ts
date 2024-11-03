@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   Component,
   computed,
   ElementRef,
@@ -21,6 +22,7 @@ import {
   faBasketShopping,
   faBuildingColumns,
   faBars,
+  faCamera,
 } from '@fortawesome/free-solid-svg-icons';
 import { ContactComponent } from '../contact/contact.component';
 import { TransfertComponent } from '../transfert/transfert.component';
@@ -32,12 +34,26 @@ import { PaiementRestoComponent } from '../paiement-resto/paiement-resto.compone
 import { BanqueCodeComponent } from '../banque-code/banque-code.component';
 import { BanqueComponent } from '../banque/banque.component';
 import { ClientService } from '../services/client.service';
-import { IAccueilResponse, ITransaction } from '../interfaces/index.ts';
+import {
+  IAccueilResponse,
+  IContact,
+  ITransaction,
+} from '../interfaces/index.ts';
 import { CommonModule } from '@angular/common';
 import { MoneyFormatPipe } from '../pipes/money-format.pipe';
 import { Observable, of } from 'rxjs';
 import { SignalBaseService } from '../services/signal-base.service';
 import { OrderByDatePipe } from '../pipes/order-by-date.pipe';
+import {
+  NgxScannerQrcodeModule,
+  LOAD_WASM,
+  ScannerQRCodeResult,
+} from 'ngx-scanner-qrcode';
+import { BurgerMenuComponent } from '../burger-menu/burger-menu.component';
+import { QrCodeComponent } from '../qr-code/qr-code.component';
+import QrScannerComponent from 'ngx-scanner-qrcode';
+
+LOAD_WASM().subscribe();
 
 @Component({
   selector: 'app-home',
@@ -58,12 +74,15 @@ import { OrderByDatePipe } from '../pipes/order-by-date.pipe';
     BanqueCodeComponent,
     BanqueComponent,
     MoneyFormatPipe,
-    OrderByDatePipe
+    OrderByDatePipe,
+    NgxScannerQrcodeModule,
+    BurgerMenuComponent,
+    QrCodeComponent,
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
 })
-export class HomeComponent implements OnInit, OnDestroy {
+export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
   faGear = faGear;
   faEye = faEye;
   faEyeSlash = faEyeSlash;
@@ -71,16 +90,39 @@ export class HomeComponent implements OnInit, OnDestroy {
   faBasketShopping = faBasketShopping;
   faBuildingColumns = faBuildingColumns;
   faBars = faBars;
+  faCamera = faCamera;
 
   soldeGlobal: any;
 
   showSolde: boolean = true;
 
   @ViewChild('soldeGlobalSpan') soldeGlobalSpan!: ElementRef<HTMLElement>;
+  @ViewChild('qrcodeModal') qrcodeModal!: ElementRef<HTMLElement>;
+  @ViewChild('menuSidebar') menuSidebar!: ElementRef<HTMLElement>;
+
+  @ViewChild('action', { static: true })
+  scanner!: QrScannerComponent.NgxScannerQrcodeComponent;
 
   homeData!: IAccueilResponse;
   // transactions$!: Observable<ITransaction[]>;
   transactions$: any;
+  qr_code!: string;
+
+  config = {
+    isBeep: false,
+    isAuto: true,
+    text: { font: '25px serif' }, // Hiden { font: '0px' },
+    frame: { lineWidth: 8 },
+    medias: {
+      audio: false,
+      video: {
+        facingMode: 'environment', // To require the rear camera https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia
+        width: { ideal: 1280 },
+        height: { ideal: 720 },
+      },
+    },
+  };
+
   constructor(
     private router: Router,
     private clientService: ClientService,
@@ -101,6 +143,8 @@ export class HomeComponent implements OnInit, OnDestroy {
           ...this.homeData.user.transactionsSent,
         ]);
 
+        this.qr_code = data.data.qr_code;
+
         // this.transactions$ = of([
         //   ...this.homeData.user.transactionsReceived,
         //   ...this.homeData.user.transactionsSent,
@@ -112,6 +156,8 @@ export class HomeComponent implements OnInit, OnDestroy {
     });
   }
 
+  ngAfterViewInit() {}
+
   handleSlashEye() {
     this.showSolde = !this.showSolde;
   }
@@ -121,4 +167,56 @@ export class HomeComponent implements OnInit, OnDestroy {
   handleDataFromChild(data: any) {}
 
   ngOnDestroy(): void {}
+
+  handleQrCodeZone() {
+    this.qrcodeModal.nativeElement.classList.remove('hidden');
+    this.qrcodeModal.nativeElement.classList.add('flex');
+  }
+  closeModalQrCode() {
+    this.qrcodeModal.nativeElement.classList.remove('flex');
+    this.qrcodeModal.nativeElement.classList.add('hidden');
+  }
+
+  onEventScan(e: ScannerQRCodeResult[]) {
+    this.clientService.getCompteByTelephone(e[0].value).subscribe({
+      next: (data) => {
+        if (data.status == 'OK') {
+          const c: Partial<IContact> = {
+            telephone: data.data.user.telephone,
+            nom: data.data.user.nom,
+            id: 0,
+            user_id: 0,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+          };
+          this.qrcodeModal.nativeElement.classList.remove('flex');
+          this.qrcodeModal.nativeElement.classList.add('hidden');
+
+          this.router.navigate(['/web/transfert'], {
+            state: {
+              contact: c,
+            },
+          });
+        }
+      },
+      error: (error) => {
+        console.error('Error:', error);
+      },
+    });
+  }
+
+  handleBurger(event: boolean) {
+    // this.isOpenMenu = event;
+    if (event) {
+      this.menuSidebar.nativeElement.classList.remove('max-sm:hidden');
+      this.menuSidebar.nativeElement.classList.add('menu');
+    } else {
+      this.menuSidebar.nativeElement.classList.add('max-sm:hidden');
+      this.menuSidebar.nativeElement.classList.remove('menu');
+    }
+  }
+
+  onpenDetails(transaction: ITransaction){
+    this.router.navigate(['/web/details-transaction'], { state: { transaction: transaction } });
+  }
 }

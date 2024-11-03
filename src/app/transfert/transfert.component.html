@@ -4,7 +4,7 @@
   class="flex relative flex-col w-full h-full items-center bg-white p-4"
 >
   <div class="w-full flex justify-between items-center mb-4">
-    <button class="text-gray-800 text-lg">
+    <button (click)="goBack($event)" class="text-gray-800 text-lg">
       <fa-icon [icon]="faArrowLeft" class="text-black text-[25px]"></fa-icon>
     </button>
     <h1 class="text-lg font-semibold">Envoyer de l'Argent</h1>
@@ -46,11 +46,9 @@
     <span class="text-red-400 invisible" #recusError>
       Le montant reçu est requis
     </span>
-    <span class="text-red-400 invisible" #errorGlobal>
-      error
-    </span>
+    <span class="text-red-400 invisible" #errorGlobal> error </span>
   </div>
-   
+
   <div class="text-center space-y-1 mb-8">
     <p class="text-cyan-400">Frais Wave = 1%</p>
     <!-- <p class="text-cyan-400">Frais maximum: 5.000F</p> -->

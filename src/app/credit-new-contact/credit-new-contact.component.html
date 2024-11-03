@@ -7,7 +7,7 @@
     <button (click)="goBack($event)" class="text-gray-800 text-lg">
       <fa-icon [icon]="faArrowLeft" class="text-black text-[25px]"></fa-icon>
     </button>
-    <h1 class="text-lg font-semibold">Envoyer de l'Argent</h1>
+    <h1 class="text-lg font-semibold">Acheter du crédit</h1>
     <div></div>
   </div>
 
@@ -29,7 +29,6 @@
       <div class="flex flex-row gap-2">
         <select formArrayName="indicatif" id="indicatif">
           <option value="+221">+221</option>
-          <option value="+33">+33</option>
         </select>
         <input
           type="text"
@@ -51,7 +50,6 @@
       <span>Suivant</span>
 
       <app-spinner *ngIf="isNextLoading"></app-spinner>
-
     </button>
   </div>
 </form>

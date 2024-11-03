@@ -11,7 +11,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faArrowLeft, faPlus, faUser } from '@fortawesome/free-solid-svg-icons';
 import { IContact } from '../interfaces/index.ts';
 import { SignalBaseService } from '../services/signal-base.service.js';
-import { CommonModule } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 import {
   FormControl,
   FormGroup,
@@ -46,7 +46,7 @@ export class TransfertComponent implements OnInit {
   @ViewChild('errorGlobal')
   errorGlobal!: ElementRef<HTMLElement>;
 
-  contact = signal<IContact | undefined>(undefined);
+  contact = signal<Partial<IContact> | undefined>(undefined);
 
   isTransfertLoading = false;
 
@@ -61,6 +61,7 @@ export class TransfertComponent implements OnInit {
     private signalBaseService: SignalBaseService,
     private location: Location
   ) {
+    
     this.soldeGlobal = computed(() => this.signalBaseService.solde());
 
     this.formTransfert = new FormGroup({
@@ -155,11 +156,15 @@ export class TransfertComponent implements OnInit {
     }
   }
 
+  goBack(event: Event): void {
+    event.preventDefault();
+    this.location.back();
+  }
+
   ngOnInit(): void {
     this.contact.set(history.state['contact']);
     this.formTransfert.patchValue({
       telephone: this.contact()?.telephone,
     });
   }
-
 }

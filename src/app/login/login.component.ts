@@ -13,6 +13,7 @@ import {
   faArrowRightArrowLeft,
   faLaptop,
   faLink,
+  faBars,
 } from '@fortawesome/free-solid-svg-icons';
 import {
   FormControl,
@@ -24,7 +25,8 @@ import { CommonModule } from '@angular/common';
 import { AuthService } from '../services/auth.service';
 import { SpinnerComponent } from '../spinner/spinner.component';
 import { ILoginResponse } from '../interfaces/index.ts';
-import { environment } from '../../environments/environment.development';
+import { environment } from '../../environments/environment';
+import { BurgerMenuComponent } from '../burger-menu/burger-menu.component';
 
 @Component({
   selector: 'app-login',
@@ -36,6 +38,7 @@ import { environment } from '../../environments/environment.development';
     RouterLink,
     RouterLinkActive,
     SpinnerComponent,
+    BurgerMenuComponent,
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
@@ -48,6 +51,7 @@ export class LoginComponent implements OnInit {
   faArrowRightArrowLeft = faArrowRightArrowLeft;
   faLaptop = faLaptop;
   faLink = faLink;
+  faBars = faBars;
 
   isLoginLoading = false;
   isVerificationLoading = false;
@@ -68,9 +72,13 @@ export class LoginComponent implements OnInit {
   codeVerificationRequis!: ElementRef<HTMLElement>;
   @ViewChild('codeVerificationIncorrect')
   codeVerificationIncorrect!: ElementRef<HTMLElement>;
+  @ViewChild('menuSidebar')
+  menuSidebar!: ElementRef<HTMLElement>;
 
   formLogin: FormGroup;
   formVerification: FormGroup;
+
+  isOpenMenu = false;
 
   errorState = {
     indicatif: '',
@@ -200,5 +208,16 @@ export class LoginComponent implements OnInit {
 
   get password() {
     return this.formLogin.get('password');
+  }
+
+  handleBurger(event: boolean) {
+    // this.isOpenMenu = event;
+    if (event) {
+      this.menuSidebar.nativeElement.classList.remove('max-sm:hidden');
+      this.menuSidebar.nativeElement.classList.add('menu');
+    } else {
+      this.menuSidebar.nativeElement.classList.add('max-sm:hidden');
+      this.menuSidebar.nativeElement.classList.remove('menu');
+    }
   }
 }

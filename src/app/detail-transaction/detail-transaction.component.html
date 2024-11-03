@@ -1,0 +1,74 @@
+<div
+  class="flex flex-col w-full h-full items-center bg-white p-4 overflow-y-scroll"
+>
+  <div class="w-full flex justify-between items-center mb-4">
+    <button (click)="goBack($event)" class="text-gray-800 text-lg">
+      <fa-icon [icon]="faArrowLeft" class="text-black text-[25px]"></fa-icon>
+    </button>
+    <h1 class="text-lg font-semibold">Acheter du crédit</h1>
+    <div></div>
+  </div>
+
+  <div class="max-w-md mx-auto bg-white p-6 rounded-lg shadow-sm">
+    <!-- Header -->
+    <div class="flex items-center justify-between mb-6">
+      <div class="text-3xl font-bold text-gray-900">-2.000F</div>
+      <div class="w-10 h-10 bg-sky-300 rounded-full flex items-center justify-center">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+        </svg>
+      </div>
+    </div>
+  
+    <!-- Title -->
+    <div class="text-xl font-semibold text-gray-900 mb-6">Retrait</div>
+  
+    <!-- Transaction Details -->
+    <div class="space-y-4">
+      <!-- Montant retiré -->
+      <div class="flex justify-between items-center">
+        <div class="text-gray-700">Montant retiré</div>
+        <div class="text-gray-600">-2.000F</div>
+      </div>
+  
+      <!-- Frais -->
+      <div class="flex justify-between items-center">
+        <div class="text-gray-700">Frais</div>
+        <div class="text-gray-600">0F</div>
+      </div>
+  
+      <!-- Statut -->
+      <div class="flex justify-between items-center">
+        <div class="text-gray-700">Statut</div>
+        <div class="text-gray-600">Effectué</div>
+      </div>
+  
+      <!-- Nom de l'agent -->
+      <div class="flex justify-between items-center">
+        <div class="text-gray-700">Nom de l'agent</div>
+        <div class="text-gray-600 text-right">
+          abdou khadre diallo<br/>
+          <span class="text-sm">(A18264_SN6)</span>
+        </div>
+      </div>
+  
+      <!-- Date et heure -->
+      <div class="flex justify-between items-center">
+        <div class="text-gray-700">Date et heure</div>
+        <div class="text-gray-600 text-right">30 octobre 2024 à 20:59</div>
+      </div>
+  
+      <!-- Nouveau solde -->
+      <div class="flex justify-between items-center">
+        <div class="text-gray-700">Nouveau solde</div>
+        <div class="text-gray-600">10.092F</div>
+      </div>
+  
+      <!-- ID de la Transaction -->
+      <div class="flex justify-between items-center">
+        <div class="text-gray-700">ID de la Transaction</div>
+        <div class="text-gray-600 text-sm">ATXO2QFILO7JQXF-SJA</div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,29 @@
+# Node.js dependencies
+node_modules
+npm-debug.log
+yarn-error.log
+
+# Angular build and local environment
+dist/
+out-tsc/
+.tmp/
+coverage/
+*.tsbuildinfo
+
+# Environment files (if not needed for production)
+# src/environments/*.ts
+
+# Logs
+*.log
+logs
+
+# OS and editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+
+# Docker files
+Dockerfile*
+docker-compose.yml

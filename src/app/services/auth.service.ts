@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { JwtHelperService, JWT_OPTIONS } from '@auth0/angular-jwt';
-import { environment } from '../../environments/environment.development';
+import { environment } from '../../environments/environment';
 import { Observable } from 'rxjs';
 import { ApiResponse, ILoginResponse, IToken } from '../interfaces/index.ts';
 import { HttpClient } from '@angular/common/http';
@@ -34,7 +34,6 @@ export class AuthService {
     const token = localStorage.getItem(this.authTokenKey);
     const helper = new JwtHelperService();
     const isExpired = helper.isTokenExpired(token);
-    console.log(isExpired);
     return !isExpired;
   }
 }

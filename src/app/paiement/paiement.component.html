@@ -2,7 +2,7 @@
   class="flex relative flex-col w-full h-full items-center bg-white p-4 overflow-y-scroll"
 >
   <div class="w-full flex justify-between items-center mb-4">
-    <button class="text-gray-800 text-lg">
+    <button (click)="goBack($event)" class="text-gray-800 text-lg">
       <fa-icon [icon]="faArrowLeft" class="text-black text-[25px]"></fa-icon>
     </button>
     <h1 class="text-lg font-semibold">Paiements</h1>
@@ -25,16 +25,22 @@
           />
         </svg>
       </div>
+
       <input
         type="text"
+        [(ngModel)]="query"
+        id="query"
         placeholder="Chercher par nom"
         class="w-full pl-10 pr-4 py-3 bg-white border border-gray-100 rounded-2xl text-gray-400 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
       />
     </div>
   </div>
 
-  <div class="grid grid-cols-4 gap-6 mb-12 w-[85%]">
-    <div class="group text-center hover:cursor-pointer">
+  <div class="grid grid-cols-4 gap-[100px] mb-12 w-[85%]">
+    <div
+      (click)="query = 'facture'"
+      class="group text-center hover:cursor-pointer"
+    >
       <div
         class="w-16 h-16 mx-auto group-hover:bg-orange-200 mb-2 rounded-full flex items-center justify-center"
       >
@@ -46,7 +52,10 @@
       <span class="text-sm">Factures</span>
     </div>
 
-    <div class="group text-center hover:cursor-pointer">
+    <div
+      (click)="query = 'restaurant'"
+      class="group text-center hover:cursor-pointer"
+    >
       <div
         class="w-16 h-16 mx-auto group-hover:bg-purple-200 mb-2 rounded-full flex items-center justify-center"
       >
@@ -60,16 +69,19 @@
   </div>
 
   <div class="mb-8 w-[85%]">
-    <!-- Canal+ -->
+    @for (fournisseur of (fournisseurs$ | async | searchContact : query ); track
+    fournisseur.id) {
     <div
+      (click)="handleChooseFournisseur(fournisseur)"
       class="flex hover:bg-gray-200 hover:cursor-pointer items-center p-4 bg-gray-50 rounded-xl mb-4 shadow-sm"
     >
       <div
         class="w-12 h-12 bg-black rounded-lg flex items-center justify-center mr-4"
       >
-        <img src="https://placehold.co/32" alt="Canal+" class="w-8 h-8" />
+        <img [src]="fournisseur.logo" alt="Canal+" class="w-[100%] h-[100%]" />
       </div>
-      <span class="text-lg font-medium">Canal+</span>
+      <span class="text-lg font-medium">{{ fournisseur.libelle }}</span>
     </div>
+    }
   </div>
 </div>

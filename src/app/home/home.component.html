@@ -20,7 +20,7 @@
   <div
     class="relative grid grid-cols-[2fr_4fr] max-sm:grid-cols-[1fr] content w-full md:w-12/12 lg:w-10/12 h-full bg-white shadow-inner z-20"
   >
-    <div class="border border-sky-500 max-sm:hidden">
+    <div class="border border-sky-500 max-sm:hidden" #menuSidebar>
       <router-outlet
         (dataEmitter)="handleDataFromChild($event)"
       ></router-outlet>
@@ -30,14 +30,13 @@
       class="relative flex flex-col bg-[#4647d3] max-h-[97vh] justify-between border border-sky-500"
     >
       <div class="flex flex-col space-y-2 h-[12%]">
-        <div
-          class="flex flex-row min-sm:justify-end justify-between border border-sky-500 flex-grow"
-        >
+        <div class="flex flex-row min-sm:justify-end justify-between flex-grow">
           <button class="min-sm:hidden">
-            <fa-icon
+            <!-- <fa-icon
               [icon]="faBars"
               class="text-white text-[30px] ml-3"
-            ></fa-icon>
+            ></fa-icon> -->
+            <app-burger-menu (opened)="handleBurger($event)"></app-burger-menu>
           </button>
           <a routerLink="/web/parametre">
             <fa-icon
@@ -46,9 +45,7 @@
             ></fa-icon>
           </a>
         </div>
-        <div
-          class="flex flex-row justify-center items-center border border-sky-500 flex-grow"
-        >
+        <div class="flex flex-row justify-center items-center flex-grow">
           <span
             class="text-[30px] text-white font-bold"
             [class.hidden]="!showSolde"
@@ -70,6 +67,7 @@
           ></fa-icon>
         </div>
       </div>
+
       <div
         style="
           box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em,
@@ -79,16 +77,27 @@
         class="flex absolute rounded-2xl max-sm:w-[70%] min-md:w-[27%] w-[37%] h-[23%] qr-code-container top-[15%] bg-[#1ab3e5] border border-sky-500 z-30"
       >
         <div
-          class="qr-content flex justify-center items-center relative w-[100%] h-[100%]"
+          (click)="
+            handleQrCodeZone(); action.isStart ? action.stop() : action.start()
+          "
+          class="qr-content transform active:scale-95 transition-transform duration-150 hover:cursor-pointer flex justify-center items-center relative w-[100%] h-[100%]"
         >
           <div
-            style="
-              box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em,
-                rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em,
-                rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;
-            "
-            class="qr-code border border-1 border-black w-[150px] h-[150px]"
-          ></div>
+            class="flex flex-col bg-white w-[150px] h-[150px] rounded-lg pl-3 pr-3 pt-3 pb-1"
+          >
+            <div class="w-[100%] h-[80%]">
+              <img [src]="qr_code" class="w-[100%] h-[100%]" alt="" srcset="" />
+            </div>
+            <div
+              class="flex flex-row gap-2 items-end justify-center w-[100%] h-[20%]"
+            >
+              <fa-icon
+                [icon]="faCamera"
+                class="text-black text-[16px]"
+              ></fa-icon>
+              <span>Scanner</span>
+            </div>
+          </div>
           <div
             class="qr-icon absolute w-[40px] h-[65px] right-4 bottom-3"
           ></div>
@@ -171,7 +180,7 @@
           @for (transaction of transactions$() | orderByDate: 'createdAt':'desc'
           ; track transaction.id) {
           <div
-            (click)="handleDetailTransaction(transaction.id)"
+            (click)="handleDetailTransaction(transaction.id);onpenDetails(transaction)"
             class="flex hover:cursor-pointer hover:bg-gray-100 justify-between items-center p-4 bg-white border-b border-gray-200"
           >
             <div>
@@ -184,15 +193,62 @@
             </div>
             <div class="text-blue-600 font-semibold">
               @if(transaction.sender_id == homeData.user.id){
-              {{ -transaction.montant_envoye }}
+              {{ -transaction.montant_envoye +'F'}}
               }@else{
-              {{ transaction.montant_recus }}
+              {{ transaction.montant_recus +'F'}}
               }
             </div>
           </div>
           }
         </div>
       </div>
+    </div>
+  </div>
+</div>
+
+<div
+  class="fixed hidden inset-0 bg-gray-800 bg-opacity-50 justify-center items-center sm:items-center z-40"
+  #qrcodeModal
+>
+  <div
+    class="bg-white w-full max-w-md rounded-t-3xl sm:rounded-2xl overflow-hidden"
+  >
+    <div class="relative p-4">
+      <button
+        (click)="
+          closeModalQrCode(); action.isStart ? action.stop() : action.start()
+        "
+        class="absolute left-4 top-0 p-2 hover:bg-gray-100 rounded-full"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-6 w-6"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M6 18L18 6M6 6l12 12"
+          />
+        </svg>
+      </button>
+    </div>
+
+    <div class="px-4 pb-6">
+      <div class="bg-gray-100 w-full aspect-square rounded-3xl mb-6">
+        <ngx-scanner-qrcode
+          [config]="config"
+          (event)="onEventScan($event)"
+          #action="scanner"
+        ></ngx-scanner-qrcode>
+      </div>
+
+      <p class="text-center text-lg mb-6">
+        Scanner le QR code pour votre transaction
+      </p>
     </div>
   </div>
 </div>

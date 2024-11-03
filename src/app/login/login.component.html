@@ -21,8 +21,18 @@
     class="relative grid grid-cols-[2fr_3fr] max-sm:grid-rows-4 min-sm:grid-rows-4 md:grid-flow-col content w-full max-md:w-12/12 min-md:w-10/12 h-full bg-white shadow-inner z-20"
   >
     <div
-      class="flex flex-col bg-[#f8f8f8] justify-center items-center row-span-4 border border-sky-500 max-sm:hidden"
+      class="flex flex-col bg-[#f8f8f8] justify-center items-center row-span-4 border max-sm:absolute max-sm:h-full max-sm:w-full border-sky-500"
     >
+      <div class="absolute w-[100%] h-[7%] top-0 z-[155]">
+        <button class="min-sm:hidden">
+          <!-- <fa-icon
+            [icon]="faBars"
+            class="text-white text-[30px] ml-3"
+          ></fa-icon> -->
+          <app-burger-menu (opened)="handleBurger($event)"></app-burger-menu>
+        </button>
+      </div>
+
       <form
         class="w-[70%] h-[100%] flex flex-col gap-6 justify-center items-center"
         [formGroup]="formLogin"
@@ -119,7 +129,8 @@
     </div>
 
     <div
-      class="flex flex-col gap-6 bg-[#4647d3] items-center justify-center row-span-4 col-span-2 border border-sky-500"
+      class="relative flex flex-col gap-6 bg-[#4647d3] items-center justify-center row-span-4 col-span-2 border border-sky-500 max-sm:hidden"
+      #menuSidebar
     >
       <div
         style="

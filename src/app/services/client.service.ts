@@ -1,13 +1,15 @@
 import { Injectable } from '@angular/core';
-import { environment } from '../../environments/environment.development';
+import { environment } from '../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import {
   ApiResponse,
   IAccueilResponse,
   IContactResponse,
+  IFournisseurResponse,
   IFraisResponse,
   ITransfertResponse,
+  IUserResponse,
 } from '../interfaces/index.ts';
 
 @Injectable({
@@ -36,10 +38,48 @@ export class ClientService {
     );
   }
 
-  public makeTransfert(montant_recus: number, telephone: string): Observable<ApiResponse<ITransfertResponse>> {
+  public makeTransfert(
+    montant_recus: number,
+    telephone: string
+  ): Observable<ApiResponse<ITransfertResponse>> {
     return this.httpClient.post<ApiResponse<ITransfertResponse>>(
       `${this.apiUrl}/transfert`,
       { montant_recus, telephone }
     );
   }
+
+  public getFournisseurs(): Observable<ApiResponse<IFournisseurResponse>> {
+    return this.httpClient.get<ApiResponse<IFournisseurResponse>>(
+      this.apiUrl + '/fournisseurs'
+    );
+  }
+
+  public payerFacture(
+    fournisseurId: number,
+    typeFournisseur: string,
+    referentiel: string,
+    montant: number
+  ): Observable<ApiResponse<ITransfertResponse>> {
+    return this.httpClient.post<ApiResponse<ITransfertResponse>>(
+      this.apiUrl + '/paiement',
+      { fournisseurId, typeFournisseur, referentiel, montant }
+    );
+  }
+
+  public achatCredit(
+    montant: number,
+    telephone: string
+  ): Observable<ApiResponse<ITransfertResponse>> {
+    return this.httpClient.post<ApiResponse<ITransfertResponse>>(
+      `${this.apiUrl}/credit`,
+      { montant, telephone }
+    );
+  }
+
+  public getCompteByTelephone(telephone: string): Observable<ApiResponse<IUserResponse>> {
+    return this.httpClient.get<ApiResponse<IUserResponse>>(
+      this.apiUrl + '/compte/' + telephone
+    );
+  }
+  
 }
